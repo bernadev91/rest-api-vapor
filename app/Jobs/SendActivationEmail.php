@@ -30,6 +30,9 @@ class SendActivationEmail implements ShouldQueue
      */
     public function handle(): void
     {
-        Mail::to($this->user->email)->send(new WelcomeEmail);
+        $this->user->sent_welcome_at = now();
+        $this->user->save();
+
+        // Mail::to($this->user->email)->send(new WelcomeEmail);
     }
 }
