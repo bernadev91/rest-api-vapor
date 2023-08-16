@@ -26,18 +26,14 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
-        if ($request->validated()) {
-            $user = new User();
+        $user = new User();
 
-            $user->name = $request->input('name');
-            $user->email = $request->input('email');
-            $user->password = Hash::make($request->input('password'));
-            $user->save();
+        $user->name = $request->input('name');
+        $user->email = $request->input('email');
+        $user->password = Hash::make($request->input('password'));
+        $user->save();
 
-            return response()->json($user);
-        } else {
-            return response()->json(['errors' => $request->errors()], 422);
-        }
+        return response()->json($user);
     }
 
     /**
@@ -58,21 +54,17 @@ class UserController extends Controller
         try {
             $user = User::findOrFail($id);
 
-            if ($request->validated()) {
-                if ($request->has('name')) {
-                    $user->name = $request->input('name');
-                }
-
-                if ($request->has('email')) {
-                    $user->email = $request->input('email');
-                }
-
-                $user->save();
-
-                return response()->json($user);
-            } else {
-                return response()->json(['errors' => $request->errors()], 422);
+            if ($request->has('name')) {
+                $user->name = $request->input('name');
             }
+
+            if ($request->has('email')) {
+                $user->email = $request->input('email');
+            }
+
+            $user->save();
+
+            return response()->json($user);
         } catch (ModelNotFoundException $e) {
             return response()->json(['error' => 'User not found.'], 404);
         }
