@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,3 +21,11 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::apiResource('users', UserController::class);
+
+Route::get('/', function () {
+    Cache::put('test-redis', now()->format('Y-m-d H:i:s'));
+
+    return [
+        'test-redis' => Cache::get('test-redis'),
+    ];
+});

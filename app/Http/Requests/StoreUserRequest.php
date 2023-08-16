@@ -2,10 +2,7 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Exceptions\HttpResponseException;
-use Illuminate\Validation\ValidationException;
 
 class StoreUserRequest extends FormRequest
 {
@@ -29,5 +26,5 @@ class StoreUserRequest extends FormRequest
             'email' => 'required|email|unique:users,email',
             'password' => 'required|min:8|confirmed',
         ];
-    }    
+    }
 }

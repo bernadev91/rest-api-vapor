@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Jobs\SendActivationEmail;
 use App\Models\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
@@ -32,6 +33,9 @@ class UserController extends Controller
         $user->email = $request->input('email');
         $user->password = Hash::make($request->input('password'));
         $user->save();
+
+        // send the activation email through the queue
+        SendActivationEmail::dispatch($user)->delay(now()->addMinute());
 
         return response()->json($user);
     }
