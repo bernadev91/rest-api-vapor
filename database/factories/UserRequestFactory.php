@@ -24,8 +24,6 @@ class UserRequestFactory
      */
     public static function update(): array
     {
-        $password = fake()->password(8);
-
         return [
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
